@@ -1,6 +1,7 @@
-import quoteRequest.py
+from quoteRequest import QuoteRequest
+from symbolData import SymbolData
 
-API_KEY = "apikey"
+API_KEY = "API-KEY"
 
 #Grab the symbol from the user and return it
 def getSymbol():
@@ -22,6 +23,10 @@ def getFunction():
 
 symbol = getSymbol()
 
-if len(symbol > 0):
+if len(symbol) > 0:
 	function = getFunction()
 	request = QuoteRequest(symbol, function, API_KEY)
+	response = request.execute()
+	data = SymbolData(symbol, response)
+	for marketDay in data.dailyData:
+		print marketDay.day + "\n"

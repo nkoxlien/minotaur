@@ -1,4 +1,5 @@
-import urllib.request
+import urllib2
+from functions import Functions
 
 #Data model for a single request for a stock quote
 class QuoteRequest:
@@ -6,15 +7,16 @@ class QuoteRequest:
 	def __init__(self, symbol, function, apiKey):
 		self.symbol = symbol
 		self.apiKey = apiKey
-		functionEnum = Function()
+		functionEnum = Functions()
 		if function == 1:
 			self.function = functionEnum.Daily
-		else if function == 2:
+		elif function == 2:
 			self.function = functionEnum.Intraday
 		else:
 			self.function = functionEnum.DailyAdjusted
 
-	#Executes an AlphaVantage
-	def execute():
-		queryString = "https://www.alphavantage.co/query?function=" + function + "&symbol=" + symbol + "&outputsize=full&apikey=" + API_KEY
-		respons = urllib.request.urlopen(queryString).read()
+	#Executes an AlphaVantage API request
+	def execute(self):
+		queryString = "https://www.alphavantage.co/query?function=" + self.function + "&symbol=" + self.symbol + "&outputsize=full&apikey=" + self.apiKey
+		response = urllib2.urlopen(queryString).read()
+		return response
